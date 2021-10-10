@@ -1,0 +1,19 @@
+1 hdfs dfs -mkdir /first_folder
+2 hdfs dfs -mkdir /first_folder/second_folder
+3 
+4 hdfs dfs -touchz /first_folder/second_folder/temp.txt
+5 hdfs dfs -rm /first_folder/second_folder/temp.txt
+6 hdfs dfs -rm -r /first_folder
+
+1 hdfs dfs -put /hadoop-text /main_folder
+2 hdfs dfs -cat /main_folder/hadoop-text
+3 hdfs dfs -cat /main_folder/hadoop-text | tail -2
+4 hdfs dfs -cat /main_folder/hadoop-text | head -2
+5 hdfs dfs -cp /main_folder/hadoop-text /second_folder/hadoop-text-2
+
+1 hdfs dfs -setrep -w 2 /main_folder/hadoop-text
+Секунд 10 работало
+hdfs dfs -setrep -w 2 /main_folder/hadoop-text
+Где-то также
+2 hdfs fsck /main_folder -files -blocks -locations
+3 hdfs fsck -blockId blk_1073741840
