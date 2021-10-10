@@ -1,6 +1,6 @@
 1 hdfs dfs -mkdir /first_folder
 2 hdfs dfs -mkdir /first_folder/second_folder
-3 
+3 это папка в которую попадают удаленный файлы, чтобы скипнуть trash, нужно указать -skipTrash
 4 hdfs dfs -touchz /first_folder/second_folder/temp.txt
 5 hdfs dfs -rm /first_folder/second_folder/temp.txt
 6 hdfs dfs -rm -r /first_folder
