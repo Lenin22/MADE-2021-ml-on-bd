@@ -1,0 +1,69 @@
+1
+Создаем таблицу
+
+CREATE TABLE artists (
+	mbid STRING,
+	artist_mb STRING,
+	artist_lastfm STRING,
+	country_mb STRING,
+	country_lastfm STRING,
+	tags_mb STRING,
+	tags_lastfm STRING,
+	listeners_lastfm BIGINT,
+	scrobbles_lastfm  BIGINT,
+	ambiguous_artist BOOLEAN
+) row format delimited fields terminated by ',';
+
+Заливаем данные из  CSV
+
+LOAD DATA LOCAL INPATH '/artists.csv' OVERWRITE INTO TABLE artists;
+
+2
+a.
+SELECT artist_mb, scrobbles_lastfm
+FROM artists
+SORT BY scrobbles_lastfm DESC 
+LIMIT 1;
+b.
+SELECT COUNT(*) as count, tags_lastfm
+FROM artists
+WHERE tags_lastfm != ''
+GROUP BY tags_lastfm
+SORT BY count DESC
+LIMIT 1;
+c.
+SELECT 
+    COUNT(artist_lastfm) as count_artist,
+    artist_lastfm,
+    tags_lastfm
+FROM artists 
+WHERE tags_lastfm IN 
+(
+
+    SELECT 
+        popular_tags.tags_lastfm as tags_lastfm
+    FROM (
+        SELECT 
+            COUNT(*) as count,
+            tags_lastfm 
+        FROM artists
+        WHERE tags_lastfm != ''  
+        GROUP BY tags_lastfm
+        SORT BY count DESC
+        LIMIT 10
+    ) popular_tags
+)
+GROUP BY tags_lastfm, artist_lastfm 
+SORT BY tags_lastfm, count_artist DESC;
+
+count_artist,artist_lastfm,tags_lastfm
+2,M.A.M,All
+2,International Anthem,All
+2,Holler,All
+2,Jason Myers,All
+2,The Sundogs,All
+1,yeP!,All
+1,365 Black,All
+1,Acoustic Moods,All
+1,Âme Strong,All
+1,Aatchi Ensemble,All
