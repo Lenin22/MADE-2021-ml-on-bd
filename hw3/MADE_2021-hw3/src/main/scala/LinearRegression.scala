@@ -6,11 +6,6 @@ import java.io._
 
 object LinearRegression extends App
 {
-  var nIter: Int = 1000
-  val theta = DenseVector.ones[Double](4)
-  var alpha: Double = 0.005
-  val debugger = new PrintWriter(new File("data/log.txt" ))
-
   def mse(X: DenseMatrix[Double], y: DenseVector[Double]): Double =
   {
     0.5 * norm(predict(X)-y) / y.size
@@ -25,6 +20,11 @@ object LinearRegression extends App
   {
     theta -= alpha / X.rows * (X.t *(predict(X)-y))
   }
+
+  var nIter: Int = 1000
+  val theta = DenseVector.ones[Double](4)
+  var alpha: Double = 0.005
+  val debugger = new PrintWriter(new File("data/log.txt" ))
 
   // adding ones for bias
   var xTrain: DenseMatrix[Double] = horzcat(csvread(new java.io.File("data/train.csv")),
